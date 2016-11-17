@@ -18,5 +18,5 @@ Idconex.render("codebio") |> Idconex.save("./test/tmp/codebio.png")
 
 Create a 9x9 identicon and return the 225x225 pixel png image as a base64 string
 ```elixir
-Idconex.render("cfranzl", :sha512, 5, 25) |> Idconex.encode64
+Idconex.render("cfranzl", alg: :sha512, chunk_size: 5, block_size: 25) |> Idconex.encode64
 ```  
