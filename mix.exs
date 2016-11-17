@@ -4,6 +4,8 @@ defmodule Idconex.Mixfile do
   def project do
     [app: :idconex,
      version: "0.1.0",
+     description: description(),
+     package: package(),
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -29,5 +31,18 @@ defmodule Idconex.Mixfile do
   defp deps do
     [{:ex_doc, "~> 0.14.3", only: [:dev]},
     {:credo, "~> 0.5.2", only: [:dev, :test]}]
+  end
+
+  defp description do
+    """
+    Identicon library with different hashing algorithms and variable grid- and image-sizes.
+    """
+  end
+
+  defp package do
+    [name: :idconex,
+    maintainers: ["Christian Franzl"],
+    links: %{"GitHub" => "https://github.com/code-bio/idconex"},
+    licenses: ["Apache 2.0"]]
   end
 end
