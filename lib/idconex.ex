@@ -85,9 +85,11 @@ defmodule Idconex do
         _ -> path
       end
 
-    if(String.ends_with?(filename, "/")) do
-      filename = "#{filename}#{default_filename}"
-    end
+    filename =
+      case String.ends_with?(filename, "/") do
+        true -> "#{filename}#{default_filename}"
+        false -> filename
+      end
 
     File.write filename, image
   end
