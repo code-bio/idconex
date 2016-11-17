@@ -13,7 +13,7 @@ defmodule Idconex do
       iex> Idconex.render("codebio") |> Idconex.save("./test/tmp/codebio.png")
       :ok
 
-      iex> Idconex.render("cfranzl", :md5, 3, 5) |> Idconex.encode64
+      iex> Idconex.render("cfranzl", alg: :md5, chunk_size: 3, block_size: 5) |> Idconex.encode64
       "iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAIAAABLixI0AAAAMklEQVR4nGP4Tz3AMGoWRWbxO5ejIeJlR80aPGZRAkaEWZjBSTYaNWsAzaJmmhgBZgEAXVVi4TlXmOgAAAAASUVORK5CYII="
   """
 
@@ -32,36 +32,24 @@ defmodule Idconex do
   * `alg: :sha512, chunk_size: 5`: Image of 450x450 pixel with 9x9 grid
   * `alg: :sha512, chunk_size: 5, block_size: 27`: Image of 243x243 pixel with 9x9 grid
 
-  Parameter:
-  * `name`: username
-  * `alg`: md5 | sha | sha224 | sha256 | sha384 | sha512
-  * `chunk_size`: number of rectangles for one side including the axis
+  Options:
+  * `alg`: md5 | sha | sha224 | sha256 | sha384 | sha512 (default: :md5)
+  * `chunk_size`: number of rectangles for one side including the axis (default: 3)
   * `block_size`: side length of the rectangle in pixel (default: 50)
 
   Returns: `%Idconex{}`
   """
-  def render(name, alg, chunk_size, block_size \\ 50) do
+  def render(name, opts \\ []) do
+    alg = Keyword.get(opts, :alg, :md5)
+    chunk_size = Keyword.get(opts, :chunk_size, 3)
+    block_size = Keyword.get(opts, :block_size, 50)
+
     name
     |> hashlist(alg)
     |> set_color
     |> set_size(chunk_size, block_size)
     |> build_grid
     |> build_image
-  end
-
-  @doc """
-  Render a given username to an identicon.
-
-  Using md5 hash algorithm and a chunk_size of 3. Use this to create
-  usual github like identicon.
-
-  Parameter:
-  * `name`: username
-
-  Returns: `%Idconex{}`
-  """
-  def render(name) do
-    render(name, :md5, 3)
   end
 
   @doc """
