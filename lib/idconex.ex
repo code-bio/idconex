@@ -3,7 +3,7 @@ defmodule Idconex do
   Creates an identicon for a given username.
 
   Use `render/1` to create a usual github like identicon.
-  Use `render/4` to create an extended identicon.
+  Use `render/2` to create an extended identicon.
 
   Use `encode64/1` to get the identicon as a base64 encoded png image.
   Use `save/2` to save the identicon as a png image file.
